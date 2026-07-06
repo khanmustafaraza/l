@@ -8,6 +8,8 @@ import {
 } from "react-icons/fa";
 import MainLayout from "../../layouts/MainLayout";
 import useAuth from "../../store/context/auth.context";
+import Loader from "../../components/common/Loader";
+import Sidebar from "../../components/user/Sidebar";
 
 const Register = () => {
   const { state, handleRegister, handleRegisterSubmit } = useAuth();
@@ -40,6 +42,7 @@ const Register = () => {
 
           {/* Right Section */}
           <div className="p-10 lg:p-14">
+            {state.loading && <Loader />}
             <h2 className="text-3xl font-bold text-[#3E2723] mb-2">Register</h2>
 
             <p className="text-gray-500 mb-8">
@@ -117,6 +120,7 @@ const Register = () => {
           </div>
         </div>
       </div>
+      <Sidebar />
     </MainLayout>
   );
 };

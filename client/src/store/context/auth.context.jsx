@@ -3,11 +3,13 @@ import initialState from "../initialstate/auth.state";
 import authReducer from "../reducers/auth.reducer";
 import AUTH_ACTIONS from "../actions/auth.action";
 import { registerService } from "../services/auth.service";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   // Auth state
   const [state, dispatch] = useReducer(authReducer, initialState);
 
@@ -40,8 +42,13 @@ const AuthProvider = ({ children }) => {
     // console.log(state.register);
     try {
       const data = await registerService(state.register);
-      console.log(data);
-      toast.success(data.message);
+      // console.log(data);
+      if (data.success) {
+        toast.success(data.message);
+        // navigate("/login");
+      }
+      // toast.success(data.message);
+      // toast("data");
 
       dispatch({
         type: AUTH_ACTIONS.SET_SUCCESS,

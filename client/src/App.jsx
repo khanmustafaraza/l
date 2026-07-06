@@ -7,11 +7,12 @@ import About from "./pages/about/About";
 import Register from "./pages/register/Register";
 import Services from "./pages/services/Services";
 import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
     <>
-      <Toaster />
+      <ToastContainer />
 
       <Routes>
         <Route path="/" element={<Home />} />

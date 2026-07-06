@@ -18,6 +18,11 @@ const styles = {
     backgroundColor: "#fff",
     borderRadius: "4px",
     padding: "4px",
+    width: "40px",
+    height: "40px",
+    margin: "0 auto",
+    boxShadow: "0 0 4px gray",
+    border: "1px solid gray",
     // zIndex: 9999,
   },
 };

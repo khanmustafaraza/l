@@ -18,18 +18,19 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: <Home size={20} />,
-    path: "/dashboard",
+    path: "/user/dashboard",
+  },
+  {
+    title: "Govt. Services",
+    icon: <FileText size={20} />,
+    path: "/user/govt-services-list",
   },
   {
     title: "My Profile",
     icon: <User size={20} />,
-    path: "/profile",
+    path: "/user/profile",
   },
-  {
-    title: "Government Services",
-    icon: <FileText size={20} />,
-    path: "/services",
-  },
+
   {
     title: "My Applications",
     icon: <FolderOpen size={20} />,
@@ -74,27 +75,9 @@ const menuItems = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-72 h-screen bg-[#7C3A2D] text-white flex flex-col shadow-2xl">
-      {/* Logo */}
-      <div className="p-6 border-b border-[#a95a47]">
-        <h1 className="text-3xl font-bold text-yellow-400">LokSetu</h1>
-        <p className="text-sm text-gray-200 mt-1">
-          Digital Government Services
-        </p>
-      </div>
-
-      {/* User Section */}
-      <div className="p-6 border-b border-[#a95a47]">
-        <div className="w-16 h-16 rounded-full bg-yellow-400 text-[#7C3A2D] flex items-center justify-center text-2xl font-bold">
-          U
-        </div>
-
-        <h2 className="mt-4 text-lg font-semibold">Welcome, Citizen</h2>
-        <p className="text-sm text-gray-200">Citizen ID: LS-2026-001</p>
-      </div>
-
+    <aside className="w-[220px]  bg-[#7C3A2D] text-white flex flex-col p-2">
       {/* Navigation */}
-      <nav className="flex-1 py-4 overflow-y-auto">
+      <nav className="flex-1 py-2">
         {menuItems.map((item, index) => (
           <a
             key={index}

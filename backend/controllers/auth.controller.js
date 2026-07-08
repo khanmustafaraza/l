@@ -1,11 +1,11 @@
+import { email, success } from "zod";
 import User from "../models/user.model.js";
 import { comparePassword, generatePassword } from "../utils/password.js";
-import { generateRefreshToken } from "../utils/token.js";
+import { generateToken } from "../utils/token.js";
 
 export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log(req.body);
 
     // Validate input
     if (!name || !email || !password) {
@@ -47,6 +47,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    // console.log(req.body);
 
     // Check required fields
     if (!email || !password) {
@@ -74,18 +75,19 @@ export const login = async (req, res) => {
     }
 
     // Generate tokens
-    const accessToken = generateAccessToken({
+    const token = generateToken({
       id: user._id,
+      name: user.name,
       email: user.email,
       role: user.role,
     });
 
-    const refreshToken = generateRefreshToken({
-      id: user._id,
-    });
+    // const refreshToken = generateRefreshToken({
+    //   id: user._id,
+    // });
 
     // Store refresh token in HttpOnly cookie
-    res.cookie("refreshToken", refreshToken, {
+    res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -93,8 +95,9 @@ export const login = async (req, res) => {
     });
 
     return res.status(200).json({
+      success: true,
       message: "Login successful",
-      accessToken,
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -105,6 +108,40 @@ export const login = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       message: error.message,
+    });
+  }
+};
+
+export const me = async (req, res) => {
+  try {
+    const data = req.user;
+
+    const existUser = await User.findById(data.id).select("-password");
+
+    if (!existUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+
+    const user = {
+      id: existUser._id,
+      name: existUser.name,
+      email: existUser.email,
+      role: existUser.role,
+    };
+
+    return res.status(200).json({
+      success: true,
+      message: "User found",
+      user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
     });
   }
 };

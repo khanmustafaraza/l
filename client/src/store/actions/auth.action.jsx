@@ -7,12 +7,14 @@ const AUTH_ACTIONS = {
 
   // Updates form field values (e.g., email, password, username)
   HANDLE_REGISTER_CHANGE: "HANDLE_REGISTER_CHANGE",
+  HANDLE_LOGIN_CHANGE: "HANDLE_LOGIN_CHANGE",
 
   // Indicates a successful authentication action
   SET_SUCCESS: "SET_SUCCESS",
+  SET_USER: "SET_USER",
 
   // Stores error messages from failed auth operations (login/register)
-  SET_ERROR: "SET_ERROR",
+  RESET_INPUTS: "RESET_INPUTS",
 };
 
 export default AUTH_ACTIONS;

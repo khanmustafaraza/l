@@ -1,8 +1,12 @@
 import React from "react";
 import { FaEnvelope, FaLock, FaArrowRight, FaShieldAlt } from "react-icons/fa";
 import MainLayout from "../../layouts/MainLayout";
+import useAuth from "../../store/context/auth.context";
+import Loader from "../../components/common/Loader";
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
+  const { handleLoginSubmit, state, handleLogin } = useAuth();
   return (
     <MainLayout>
       <div className="min-h-screen bg-[#FFF8F0] flex items-center justify-center px-6 py-12">
@@ -59,8 +63,9 @@ const Login = () => {
             <p className="text-gray-500 mb-8">
               Enter your credentials to continue.
             </p>
+            {state?.loading && <Loader />}
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={(e) => handleLoginSubmit(e)}>
               {/* Email */}
               <div>
                 <label className="block mb-2 font-medium text-gray-700">
@@ -70,6 +75,9 @@ const Login = () => {
                 <div className="flex items-center border rounded-xl px-4 py-3 focus-within:border-[#7C3A2D]">
                   <FaEnvelope className="text-gray-400 mr-3" />
                   <input
+                    name="email"
+                    onChange={(e) => handleLogin(e)}
+                    value={state.login.email}
                     type="email"
                     placeholder="Enter your email"
                     className="w-full outline-none"
@@ -86,6 +94,9 @@ const Login = () => {
                 <div className="flex items-center border rounded-xl px-4 py-3 focus-within:border-[#7C3A2D]">
                   <FaLock className="text-gray-400 mr-3" />
                   <input
+                    name="password"
+                    onChange={(e) => handleLogin(e)}
+                    value={state.login.password}
                     type="password"
                     placeholder="Enter your password"
                     className="w-full outline-none"
@@ -100,12 +111,12 @@ const Login = () => {
                   Remember Me
                 </label>
 
-                <a
+                {/* <a
                   href="/forgot-password"
                   className="text-[#7C3A2D] hover:underline"
                 >
                   Forgot Password?
-                </a>
+                </a> */}
               </div>
 
               {/* Login Button */}
@@ -134,12 +145,12 @@ const Login = () => {
               {/* Register */}
               <p className="text-center text-gray-600">
                 Don't have an account?{" "}
-                <a
-                  href="/register"
+                <NavLink
+                  to="/register"
                   className="text-[#7C3A2D] font-semibold hover:underline"
                 >
                   Create Account
-                </a>
+                </NavLink>
               </p>
             </form>
           </div>

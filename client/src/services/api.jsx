@@ -1,5 +1,7 @@
-const apiPost = async (url, payload) => {
-  const res = await fetch(url, {
+const VITE_API_URL = import.meta.env.VITE_API_URL;
+
+const apiPost = async (endpoint, payload) => {
+  const res = await fetch(`${VITE_API_URL}/${endpoint}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -17,4 +19,4 @@ const apiPost = async (url, payload) => {
   return data;
 };
 
-export default apiPost;
+export { apiPost };

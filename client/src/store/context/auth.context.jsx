@@ -2,9 +2,10 @@ import { createContext, useContext, useReducer } from "react";
 import initialState from "../initialstate/auth.state";
 import authReducer from "../reducers/auth.reducer";
 import AUTH_ACTIONS from "../actions/auth.action";
-import { registerService } from "../services/auth.service";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { apiPost } from "../../services/api";
+import { useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -22,59 +23,97 @@ const AuthProvider = ({ children }) => {
       payload: { name, value },
     });
   };
-
-  // Login submit
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-
-    // TODO: login logic here
-  };
-
-  // Register submit
+  // register submit
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
     dispatch({
       type: AUTH_ACTIONS.SET_LOADING,
-      payload: true,
     });
 
-    // console.log(state.register);
     try {
-      const data = await registerService(state.register);
-      // console.log(data);
+      const data = await apiPost("api/auth/register", state.register);
+      console.log(data);
       if (data.success) {
         toast.success(data.message);
-        // navigate("/login");
+        dispatch({
+          type: AUTH_ACTIONS.SET_SUCCESS,
+        });
+        dispatch({
+          type: AUTH_ACTIONS.RESET_INPUTS,
+        });
+        navigate("/login");
       }
-      // toast.success(data.message);
-      // toast("data");
-
-      dispatch({
-        type: AUTH_ACTIONS.SET_SUCCESS,
-        payload: data,
-      });
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
+    }
+  };
+  const handleLogin = (e) => {
+    const { name, value } = e.target;
+
+    dispatch({
+      type: AUTH_ACTIONS.HANDLE_LOGIN_CHANGE,
+      payload: { name, value },
+    });
+  };
+
+  // Login submit
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+
+    dispatch({
+      type: AUTH_ACTIONS.SET_LOADING,
+    });
+
+    try {
+      const data = await apiPost("api/auth/login", state.login);
+      if (data.success) {
+        toast.success(data.message);
+        dispatch({
+          type: AUTH_ACTIONS.SET_USER,
+          payload: data.user,
+        });
+        dispatch({
+          type: AUTH_ACTIONS.SET_SUCCESS,
+        });
+        dispatch({
+          type: AUTH_ACTIONS.RESET_INPUTS,
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
+  };
+  const getUser = async () => {
+    dispatch({
+      type: AUTH_ACTIONS.SET_LOADING,
+    });
+    const data = await apiPost("api/auth/me", {});
+    // console.log(data);
+    if (data.success) {
       dispatch({
-        type: AUTH_ACTIONS.SET_ERROR,
-        payload: error.message,
+        type: AUTH_ACTIONS.SET_USER,
+        payload: data.user,
       });
-    } finally {
       dispatch({
-        type: AUTH_ACTIONS.SET_LOADING,
-        payload: false,
+        type: AUTH_ACTIONS.SET_SUCCESS,
       });
     }
   };
 
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <AuthContext.Provider
       value={{
         state,
         handleRegister,
         handleLoginSubmit,
+        handleLogin,
         handleRegisterSubmit,
       }}
     >

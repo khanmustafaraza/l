@@ -16,12 +16,25 @@ const authReducer = (state, action) => {
         },
       };
     }
+    case AUTH_ACTIONS.HANDLE_LOGIN_CHANGE: {
+      const { name, value } = action.payload;
+
+      // Determine whether it's login or register field
+
+      return {
+        ...state,
+        login: {
+          ...state.login,
+          [name]: value,
+        },
+      };
+    }
 
     // Set loading state
     case AUTH_ACTIONS.SET_LOADING:
       return {
         ...state,
-        loading: action.payload,
+        loading: true,
       };
 
     // Success state (store user/token/message)
@@ -29,19 +42,17 @@ const authReducer = (state, action) => {
       return {
         ...state,
         loading: false,
-        user: action.payload?.user || state.user,
-        token: action.payload?.token || state.token,
-        success: action.payload?.message || "Success",
-        error: null,
       };
-
-    // Error state
-    case AUTH_ACTIONS.SET_ERROR:
+    case AUTH_ACTIONS.SET_USER:
       return {
         ...state,
-        loading: false,
-        error: action.payload,
-        success: null,
+        user: action.payload,
+      };
+    case AUTH_ACTIONS.RESET_INPUTS:
+      return {
+        ...state,
+        register: { name: "", email: "", password: "" },
+        login: { email: "", password: "" },
       };
 
     default:

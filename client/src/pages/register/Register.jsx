@@ -10,6 +10,7 @@ import MainLayout from "../../layouts/MainLayout";
 import useAuth from "../../store/context/auth.context";
 import Loader from "../../components/common/Loader";
 import Sidebar from "../../components/user/Sidebar";
+import { NavLink } from "react-router-dom";
 
 const Register = () => {
   const { state, handleRegister, handleRegisterSubmit } = useAuth();
@@ -109,12 +110,12 @@ const Register = () => {
               {/* Login link */}
               <p className="text-center text-gray-600">
                 Already have an account?
-                <a
-                  href="/login"
+                <NavLink
+                  to="/login"
                   className="text-[#7C3A2D] font-semibold hover:underline"
                 >
                   Login
-                </a>
+                </NavLink>
               </p>
             </form>
           </div>

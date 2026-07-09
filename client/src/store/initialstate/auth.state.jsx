@@ -11,6 +11,8 @@ const initialState = {
   user: null,
   token: "",
   loading: false,
+  // authChecked: false,
+
   message: "",
   errorMessage: "",
 };

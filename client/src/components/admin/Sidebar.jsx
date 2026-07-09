@@ -1,108 +1,112 @@
 import React from "react";
-import {
-  Home,
-  User,
-  FileText,
-  FolderOpen,
-  CreditCard,
-  Shield,
-  Bell,
-  Calendar,
-  MapPin,
-  Settings,
-  HelpCircle,
-  LogOut,
-} from "lucide-react";
+import { Home, FileText, LogOut, ShieldCheck } from "lucide-react";
+import { MdDashboard } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { FaPlus } from "react-icons/fa";
 
 const menuItems = [
   {
     title: "Dashboard",
-    icon: <Home size={20} />,
-    path: "/user/dashboard",
+    icon: <MdDashboard size={19} />,
+    path: "/admin/dashboard",
   },
   {
-    title: "Add New Govt. Ser.",
-    icon: <FileText size={20} />,
-    path: "/admin/govt-ser-register",
+    title: "New Service",
+    icon: <FaPlus size={19} />,
+    path: "/admin/add-new-service",
   },
   {
-    title: "Govt.Ser.List",
-    icon: <FileText size={20} />,
-    path: "/admin/govt-ser-register",
+    title: "Govt. Service List",
+    icon: <FileText size={19} />,
+    path: "/admin/govt-ser-list",
   },
-  //   {
-  //     title: "My Profile",
-  //     icon: <User size={20} />,
-  //     path: "/user/profile",
-  //   },
-
-  //   {
-  //     title: "My Applications",
-  //     icon: <FolderOpen size={20} />,
-  //     path: "/applications",
-  //   },
-  //   {
-  //     title: "Documents",
-  //     icon: <Shield size={20} />,
-  //     path: "/documents",
-  //   },
-  //   {
-  //     title: "Payments",
-  //     icon: <CreditCard size={20} />,
-  //     path: "/payments",
-  //   },
-  //   {
-  //     title: "Appointments",
-  //     icon: <Calendar size={20} />,
-  //     path: "/appointments",
-  //   },
-  //   {
-  //     title: "Service Centers",
-  //     icon: <MapPin size={20} />,
-  //     path: "/service-centers",
-  //   },
-  //   {
-  //     title: "Notifications",
-  //     icon: <Bell size={20} />,
-  //     path: "/notifications",
-  //   },
-  //   {
-  //     title: "Help & Support",
-  //     icon: <HelpCircle size={20} />,
-  //     path: "/support",
-  //   },
-  //   {
-  //     title: "Settings",
-  //     icon: <Settings size={20} />,
-  //     path: "/settings",
-  //   },
 ];
 
 const Sidebar = () => {
   return (
-    <aside className="w-[250px]  bg-[#7C3A2D] text-white flex flex-col p-2">
+    <aside className="w-[220px] min-h-screen bg-white border-r border-gray-200 flex flex-col shadow-sm">
+      {/* Logo */}
+      <div className=" border-b py-3 border-gray-200">
+        <div className="flex items-center gap-1 ">
+          <div className="bg-white p-2 rounded-xl">
+            <ShieldCheck size={22} className="text-yellow-500" />
+          </div>
+
+          <div>
+            <h2 className="font-bold ">Admin Panel</h2>
+            <p className="text-xs">Government Portal</p>
+          </div>
+        </div>
+      </div>
+
       {/* Navigation */}
-      <nav className="flex-1 py-2">
-        {menuItems.map((item, index) => (
+      <nav className="flex-1 space-y-1 p-1">
+        {menuItems.map((item) => (
           <NavLink
-            key={index}
+            key={item.path}
             to={item.path}
-            className="flex items-center gap-4 px-6 py-3 hover:bg-yellow-400 hover:text-[#7C3A2D] transition-all duration-300"
+            className={({ isActive }) =>
+              `
+                flex items-center gap-2 
+              px-4 py-3.5 rounded
+              transition-all duration-300
+              ${
+                isActive
+                  ? "bg-yellow-400 "
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              }
+              `
+            }
           >
-            {item.icon}
-            <span className="font-medium">{item.title}</span>
+            {({ isActive }) => (
+              <>
+                {/* Active Line */}
+                {isActive && (
+                  <span className="absolute left-0 top-3 h-7 w-1 rounded-r-full bg-gray-900" />
+                )}
+
+                <span
+                  className={`
+                    transition-transform duration-300
+                    group-hover:scale-110
+                    ${isActive ? "text-gray-900" : "text-gray-500"}
+                  `}
+                >
+                  {item.icon}
+                </span>
+
+                <span className="font-medium text-sm text-right">
+                  {item.title}
+                </span>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
       {/* Logout */}
-      <div className="p-5 border-t border-[#a95a47]">
-        <button className="w-full flex items-center justify-center gap-3 bg-yellow-400 text-[#7C3A2D] py-3 rounded-lg font-semibold hover:bg-yellow-300 transition">
-          <LogOut size={20} />
-          Logout
-        </button>
-      </div>
+      <button
+        className="
+          flex items-center justify-center gap-3
+          px-4 py-3.5
+          rounded-xl
+          border border-red-100
+          text-red-500
+          bg-red-50/50
+          hover:bg-red-500
+          hover:text-white
+          transition-all duration-300
+          font-medium
+          text-sm
+          group
+        "
+      >
+        <LogOut
+          size={19}
+          className="group-hover:rotate-12 transition-transform"
+        />
+        Logout
+      </button>
     </aside>
   );
 };

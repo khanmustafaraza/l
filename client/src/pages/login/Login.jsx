@@ -3,10 +3,14 @@ import { FaEnvelope, FaLock, FaArrowRight, FaShieldAlt } from "react-icons/fa";
 import MainLayout from "../../layouts/MainLayout";
 import useAuth from "../../store/context/auth.context";
 import Loader from "../../components/common/Loader";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 
 const Login = () => {
   const { handleLoginSubmit, state, handleLogin } = useAuth();
+
+  if (state.user != null) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <MainLayout>
       <div className="min-h-screen bg-[#FFF8F0] flex items-center justify-center px-6 py-12">

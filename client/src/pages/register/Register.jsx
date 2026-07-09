@@ -10,10 +10,13 @@ import MainLayout from "../../layouts/MainLayout";
 import useAuth from "../../store/context/auth.context";
 import Loader from "../../components/common/Loader";
 import Sidebar from "../../components/user/Sidebar";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 
 const Register = () => {
   const { state, handleRegister, handleRegisterSubmit } = useAuth();
+  if (state.user != null) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <MainLayout>

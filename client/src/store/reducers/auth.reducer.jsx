@@ -48,6 +48,16 @@ const authReducer = (state, action) => {
         ...state,
         user: action.payload,
       };
+    case AUTH_ACTIONS.SET_AUTH_CHECKED:
+      return {
+        ...state,
+        authChecked: true,
+      };
+    case AUTH_ACTIONS.SET_USER_NULL:
+      return {
+        ...state,
+        user: null,
+      };
     case AUTH_ACTIONS.RESET_INPUTS:
       return {
         ...state,

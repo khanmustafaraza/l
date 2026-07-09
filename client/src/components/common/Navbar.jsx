@@ -11,15 +11,12 @@ import {
 import useAuth from "../../store/context/auth.context";
 
 const Navbar = () => {
-  const { state } = useAuth();
+  const { state, handleLogout } = useAuth();
+  console.log(state.user);
+  console.log(state.authChecked);
 
   const [open, setOpen] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
 
   const navLink = ({ isActive }) =>
     `font-medium transition ${
@@ -76,7 +73,7 @@ const Navbar = () => {
 
         {/* Desktop User */}
         <div className="hidden md:flex items-center">
-          {state.loading ? null : state.user ? (
+          {state.user ? (
             <div className="relative">
               <button
                 onClick={() => setOpen(!open)}
@@ -107,13 +104,36 @@ const Navbar = () => {
                     <p className="text-sm text-gray-500">{state.user.email}</p>
                   </div>
 
-                  <NavLink
-                    to="/dashboard"
-                    className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100"
-                  >
-                    <LayoutDashboard size={18} />
-                    Dashboard
-                  </NavLink>
+                  {/* Role-based Dashboard */}
+                  {state.user.role === "admin" && (
+                    <NavLink
+                      to="/admin/dashboard"
+                      className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100"
+                    >
+                      <LayoutDashboard size={18} />
+                      Admin Dashboard
+                    </NavLink>
+                  )}
+
+                  {state.user.role === "vendor" && (
+                    <NavLink
+                      to="/vendor/dashboard"
+                      className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100"
+                    >
+                      <LayoutDashboard size={18} />
+                      Vendor Dashboard
+                    </NavLink>
+                  )}
+
+                  {state.user.role === "user" && (
+                    <NavLink
+                      to="/user/dashboard"
+                      className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100"
+                    >
+                      <LayoutDashboard size={18} />
+                      Dashboard
+                    </NavLink>
+                  )}
 
                   <NavLink
                     to="/profile"
@@ -124,7 +144,7 @@ const Navbar = () => {
                   </NavLink>
 
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-5 py-3 text-red-500 hover:bg-red-50"
                   >
                     <LogOut size={18} />

@@ -88,25 +88,36 @@ const AuthProvider = ({ children }) => {
     }
   };
   const getUser = async () => {
-    dispatch({
-      type: AUTH_ACTIONS.SET_LOADING,
-    });
-    const data = await apiPost("api/auth/me", {});
-    // console.log(data);
-    if (data.success) {
-      dispatch({
-        type: AUTH_ACTIONS.SET_USER,
-        payload: data.user,
-      });
-      dispatch({
-        type: AUTH_ACTIONS.SET_SUCCESS,
-      });
+    try {
+      const data = await apiPost("api/auth/me", {});
+
+      if (data.success) {
+        dispatch({
+          type: AUTH_ACTIONS.SET_USER,
+          payload: data.user,
+        });
+      } else {
+        dispatch({
+          type: AUTH_ACTIONS.SET_USER_NULL,
+        });
+      }
+    } finally {
     }
   };
-
   useEffect(() => {
     getUser();
   }, []);
+
+  const handleLogout = async () => {
+    const data = await apiPost("api/auth/logout", {});
+    if (data.success) {
+      toast.success(data.message);
+      dispatch({
+        type: AUTH_ACTIONS.SET_USER_NULL,
+      });
+      navigate("/login");
+    }
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -115,6 +126,7 @@ const AuthProvider = ({ children }) => {
         handleLoginSubmit,
         handleLogin,
         handleRegisterSubmit,
+        handleLogout,
       }}
     >
       {children}

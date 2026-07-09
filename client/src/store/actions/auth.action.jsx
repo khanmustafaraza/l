@@ -4,6 +4,7 @@
 const AUTH_ACTIONS = {
   // Sets the loading state during async operations (e.g., login/register)
   SET_LOADING: "SET_LOADING",
+  SET_AUTH_CHECKED: "SET_AUTH_CHECKED",
 
   // Updates form field values (e.g., email, password, username)
   HANDLE_REGISTER_CHANGE: "HANDLE_REGISTER_CHANGE",
@@ -12,6 +13,7 @@ const AUTH_ACTIONS = {
   // Indicates a successful authentication action
   SET_SUCCESS: "SET_SUCCESS",
   SET_USER: "SET_USER",
+  SET_USER_NULL: "SET_USER_NULL",
 
   // Stores error messages from failed auth operations (login/register)
   RESET_INPUTS: "RESET_INPUTS",

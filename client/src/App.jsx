@@ -14,6 +14,8 @@ import Profile from "./pages/user/Profile";
 import GovtSerList from "./pages/user/GovtSerList";
 import GovtSerRegister from "./pages/admin/GovtSerRegister";
 import AdminRoute from "./routes/AdminRoute";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AddNewSerevice from "./pages/admin/AddNewSerevice";
 
 const App = () => {
   return (
@@ -42,7 +44,8 @@ const App = () => {
 
         {/* user Route start */}
         <Route path="/admin" element={<AdminRoute />}>
-          <Route path="govt-ser-register" element={<GovtSerRegister />} />
+          <Route path="add-new-service" element={<AddNewSerevice />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           {/* <Route path="profile" element={<Profile />} />
           <Route path="govt-services-list" element={<GovtSerList />} /> */}
         </Route>

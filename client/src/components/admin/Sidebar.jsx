@@ -62,7 +62,7 @@ const Sidebar = () => {
               <>
                 {/* Active Line */}
                 {isActive && (
-                  <span className="absolute left-0 top-3 h-7 w-1 rounded-r-full bg-gray-900" />
+                  <span className="absolute left-0 top-3 h-7 w-1 rounded-r-full" />
                 )}
 
                 <span

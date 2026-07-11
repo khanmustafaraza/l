@@ -732,3 +732,10 @@ const UserDropdown = () => {
 };
 
 export default UserDropdown;
+
+AI
+
+OpenAI or another LLM
+OCR (such as Tesseract or cloud OCR)
+Speech-to-text
+Translation API

@@ -1,16 +1,20 @@
+import SERVICE_ACTION from "../actions/service.action";
+
 const serviceReducer = (state, action) => {
   switch (action.type) {
-    case "SERVICE_REQUEST":
+    case SERVICE_ACTION.SET_LOADING:
       return {
         ...state,
         loading: true,
       };
 
-    case "CREATE_SERVICE_SUCCESS":
+    case "HANDLE_SERVICE_CHANGE":
       return {
         ...state,
-        loading: false,
-        services: [action.payload, ...state.services],
+        service: {
+          ...state.service,
+          [action.payload.name]: action.payload.value,
+        },
       };
 
     case "GET_SERVICES_SUCCESS":

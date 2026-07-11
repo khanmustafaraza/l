@@ -4,26 +4,21 @@ const initialState = {
   services: [],
 
   service: {
-    serviceName: "",
+    name: "",
     department: "",
     category: "",
     description: "",
     eligibility: "",
 
-    documentsRequired: [],
+    documents: "",
 
-    applicationProcess: "",
+    // applicationProcess: "",
 
     officialWebsite: "",
 
     serviceCharge: 0,
 
-    status: "Active",
-
-    createdBy: null,
-
-    createdAt: null,
-    updatedAt: null,
+    status: "active",
   },
 };
 

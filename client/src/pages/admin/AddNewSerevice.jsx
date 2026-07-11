@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 import { FileText, Building2, Globe, IndianRupee, Plus, X } from "lucide-react";
 import Button from "../../components/common/Button";
+import useService from "../../store/context/service.context";
 
 const AddNewService = () => {
+  const { state, handleServiceChange, handleServiceSubmit } = useService();
   const [documents, setDocuments] = useState([]);
-  const [document, setDocument] = useState("");
 
   const addDocument = () => {
-    if (document.trim()) {
-      setDocuments([...documents, document]);
-      setDocument("");
+    if (state.service.documents.trim()) {
+      setDocuments([...documents, state.service.documents]);
+      state.service.documents = "";
     }
   };
+  // console.log(documents);
 
   const removeDocument = (index) => {
     setDocuments(documents.filter((_, i) => i !== index));
@@ -43,7 +45,10 @@ const AddNewService = () => {
           p-6 md:p-8
         "
         >
-          <form className="space-y-6">
+          <form
+            className="space-y-6"
+            onSubmit={(e) => handleServiceSubmit(e, documents)}
+          >
             {/* Service Name */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -54,6 +59,9 @@ const AddNewService = () => {
                 <FileText className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5" />
 
                 <input
+                  name="name"
+                  value={state.service.name}
+                  onChange={(e) => handleServiceChange(e)}
                   type="text"
                   placeholder="Example: Birth Certificate"
                   className="
@@ -87,6 +95,9 @@ const AddNewService = () => {
                   <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5" />
 
                   <input
+                    name="department"
+                    value={state.service.department}
+                    onChange={(e) => handleServiceChange(e)}
                     type="text"
                     placeholder="Health Department"
                     className="
@@ -113,6 +124,9 @@ const AddNewService = () => {
                 </label>
 
                 <select
+                  name="category"
+                  value={state.service.category}
+                  onChange={(e) => handleServiceChange(e)}
                   className="
                     w-full
                     px-4
@@ -128,11 +142,11 @@ const AddNewService = () => {
                   "
                 >
                   <option>Select Category</option>
-                  <option>Certificate</option>
-                  <option>Education</option>
-                  <option>Health</option>
-                  <option>Pension</option>
-                  <option>Employment</option>
+                  <option value="certificate">Certificate</option>
+                  <option value="education">Education</option>
+                  <option value="health">Health</option>
+                  <option value="pension">Pension</option>
+                  <option value="employment">Employment</option>
                 </select>
               </div>
             </div>
@@ -144,6 +158,9 @@ const AddNewService = () => {
               </label>
 
               <textarea
+                name="description"
+                value={state.service.description}
+                onChange={(e) => handleServiceChange(e)}
                 rows="4"
                 placeholder="Enter service description..."
                 className="
@@ -169,8 +186,10 @@ const AddNewService = () => {
                 Eligibility
               </label>
 
-              <textarea
-                rows="3"
+              <input
+                name="eligibility"
+                value={state.service.eligibility}
+                onChange={(e) => handleServiceChange(e)}
                 placeholder="Who can apply for this service?"
                 className="
                   w-full
@@ -197,8 +216,9 @@ const AddNewService = () => {
 
               <div className="flex gap-3">
                 <input
-                  value={document}
-                  onChange={(e) => setDocument(e.target.value)}
+                  name="documents"
+                  value={state.service.documents}
+                  onChange={(e) => handleServiceChange(e)}
                   placeholder="Aadhar Card"
                   className="
                     flex-1
@@ -257,7 +277,7 @@ const AddNewService = () => {
             </div>
 
             {/* Website + Charge */}
-            <div className="grid md:grid-cols-2 gap-6">
+            {/* <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Official Website
@@ -307,7 +327,7 @@ const AddNewService = () => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Status */}
             <div>
@@ -316,6 +336,9 @@ const AddNewService = () => {
               </label>
 
               <select
+                name="status"
+                onChange={(e) => handleServiceChange(e)}
+                value={state.service.status}
                 className="
                   w-full
                   px-4
@@ -326,8 +349,8 @@ const AddNewService = () => {
                   bg-gray-50
                 "
               >
-                <option>Active</option>
-                <option>Inactive</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
               </select>
             </div>
 

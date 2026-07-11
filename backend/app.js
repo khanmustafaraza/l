@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import auth from "./routes/auth.route.js";
+import service from "./routes/services.route.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(morgan("combined"));
 
 // auth routes
 app.use("/api/auth", auth);
+app.use("/api", service);
 
 app.get("/", (req, res) => {
   console.log("Server is running");
